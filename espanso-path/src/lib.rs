@@ -41,7 +41,7 @@ pub struct PathsV2 {
   pub is_portable_mode: bool,
 }
 
-pub fn resolve_paths(
+pub fn resolve_paths_2(
   force_config_dir: Option<&Path>,
   force_package_dir: Option<&Path>,
   force_runtime_dir: Option<&Path>,
