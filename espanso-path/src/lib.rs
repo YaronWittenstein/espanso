@@ -17,14 +17,23 @@
  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+mod helper;
+
 use log::{debug, info};
 use std::{
   fs::create_dir_all,
   path::{Path, PathBuf},
 };
 
+const LEGACY_RUNTIME_DIR_CANDIDATES_FILE: &[&str] = &[
+  "espanso.log",
+  "espanso.lock",
+  "espanso-worker.lock",
+  "espanso-daemon.lock",
+];
+
 #[derive(Debug, Clone)]
-pub struct Paths {
+pub struct PathsV2 {
   pub config: PathBuf,
   pub runtime: PathBuf,
   pub packages: PathBuf,
@@ -36,7 +45,7 @@ pub fn resolve_paths(
   force_config_dir: Option<&Path>,
   force_package_dir: Option<&Path>,
   force_runtime_dir: Option<&Path>,
-) -> Paths {
+) -> PathsV2 {
   let config_dir = if let Some(config_dir) = force_config_dir {
     config_dir.to_path_buf()
   } else if let Some(config_dir) = get_config_dir() {
@@ -45,25 +54,11 @@ pub fn resolve_paths(
     // Create the config directory if not already present
     let config_dir = get_default_config_path();
     info!("creating config directory in {:?}", config_dir);
-    create_dir_all(&config_dir).expect("unable to create config directory");
+    create_dir_all(&config_dir).expect("unable to create configuration dir");
     config_dir
   };
 
-  let runtime_dir = if let Some(runtime_dir) = force_runtime_dir {
-    runtime_dir.to_path_buf()
-  } else if let Some(runtime_dir) = get_runtime_dir() {
-    runtime_dir
-  } else {
-    // Create the runtime directory if not already present
-    let runtime_dir = if !is_portable_mode() {
-      get_default_runtime_path()
-    } else {
-      get_portable_runtime_path().expect("unable to obtain runtime directory path")
-    };
-    info!("creating runtime directory in {:?}", runtime_dir);
-    create_dir_all(&runtime_dir).expect("unable to create runtime directory");
-    runtime_dir
-  };
+  let runtime_dir = helper::extract_runtime(force_runtime_dir);
 
   let packages_dir = if let Some(package_dir) = force_package_dir {
     package_dir.to_path_buf()
@@ -80,7 +75,7 @@ pub fn resolve_paths(
   let is_portable_mode =
     is_portable_mode() && force_config_dir.is_none() && force_runtime_dir.is_none();
 
-  Paths {
+  PathsV2 {
     config: config_dir,
     runtime: runtime_dir,
     packages: packages_dir,
@@ -114,18 +109,6 @@ fn get_config_dir() -> Option<PathBuf> {
   } else {
     None
   }
-}
-
-fn get_portable_config_dir() -> Option<PathBuf> {
-  let espanso_exe_path = std::env::current_exe().expect("unable to obtain executable path");
-  let exe_dir = espanso_exe_path.parent();
-  if let Some(parent) = exe_dir {
-    let config_dir = parent.join(".espanso");
-    if config_dir.is_dir() {
-      return Some(config_dir);
-    }
-  }
-  None
 }
 
 fn get_home_espanso_dir() -> Option<PathBuf> {
@@ -292,14 +275,6 @@ fn is_portable_mode() -> bool {
   }
   false
 }
-
-const LEGACY_RUNTIME_DIR_CANDIDATES_FILE: &[&str] = &[
-  "espanso.log",
-  "espanso.lock",
-  "espanso-worker.lock",
-  "espanso-daemon.lock",
-];
-
 // Run an heuristic to determine if the given directory
 // is a legacy runtime dir or not.
 // Unfortunately, due to the way the legacy path works
@@ -318,4 +293,16 @@ fn is_legacy_runtime_dir(path: &Path) -> bool {
   }
 
   false
+}
+
+fn get_portable_config_dir() -> Option<PathBuf> {
+  let espanso_exe_path = std::env::current_exe().expect("unable to obtain executable path");
+  let exe_dir = espanso_exe_path.parent();
+  if let Some(parent) = exe_dir {
+    let config_dir = parent.join(".espanso");
+    if config_dir.is_dir() {
+      return Some(config_dir);
+    }
+  }
+  None
 }

@@ -20,9 +20,9 @@
 use crate::icon::IconPaths;
 use clap::ArgMatches;
 use espanso_modulo::welcome::*;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
-pub fn welcome_main(matches: &ArgMatches, _: &Paths, icon_paths: &IconPaths) -> i32 {
+pub fn welcome_main(matches: &ArgMatches, _: &PathsV2, icon_paths: &IconPaths) -> i32 {
   let dont_show_again_handler = Box::new(move |_dont_show: bool| {
     //preferences.set_should_display_welcome(!dont_show);
     // TODO: this should probably be deleted if not used?

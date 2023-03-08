@@ -22,14 +22,14 @@ use std::collections::HashMap;
 use anyhow::{bail, Context, Result};
 use clap::ArgMatches;
 use espanso_ipc::IPCClient;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
 use crate::{
   ipc::{create_ipc_client_to_worker, IPCEvent, RequestMatchExpansionPayload},
   lock::acquire_worker_lock,
 };
 
-pub fn exec_main(cli_args: &ArgMatches, paths: &Paths) -> Result<()> {
+pub fn exec_main(cli_args: &ArgMatches, paths: &PathsV2) -> Result<()> {
   let trigger = cli_args.value_of("trigger");
   let args = cli_args.values_of("arg");
 

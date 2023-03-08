@@ -20,7 +20,7 @@
 use std::{path::Path, process::Command};
 
 use anyhow::{bail, Result};
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 use thiserror::Error;
 
 use crate::{
@@ -34,7 +34,7 @@ pub fn is_legacy_version_running(runtime_path: &Path) -> bool {
   legacy_lock_file.is_none()
 }
 
-pub fn migrate_configuration(paths: &Paths) -> Result<()> {
+pub fn migrate_configuration(paths: &PathsV2) -> Result<()> {
   let espanso_exe_path = std::env::current_exe()?;
   let mut command = Command::new(espanso_exe_path.to_string_lossy().to_string());
   command.args(["migrate", "--noconfirm"]);

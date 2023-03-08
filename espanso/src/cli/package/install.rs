@@ -20,11 +20,11 @@
 use anyhow::{anyhow, bail, Context, Result};
 use clap::ArgMatches;
 use espanso_package::{PackageSpecifier, ProviderOptions, SaveOptions};
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
 use crate::{error_eprintln, info_println};
 
-pub fn install_package(paths: &Paths, matches: &ArgMatches) -> Result<()> {
+pub fn install_package(paths: &PathsV2, matches: &ArgMatches) -> Result<()> {
   let package_name = matches
     .value_of("package_name")
     .ok_or_else(|| anyhow!("missing package name"))?;

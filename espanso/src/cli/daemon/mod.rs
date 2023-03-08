@@ -24,7 +24,7 @@ use crossbeam::{
   select,
 };
 use espanso_ipc::IPCClient;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 use log::{error, info, warn};
 
 use crate::{
@@ -284,7 +284,7 @@ fn spawn_worker(
 }
 
 fn restart_worker(
-  paths: &Paths,
+  paths: &PathsV2,
   paths_overrides: &PathsOverrides,
   exit_notify: Sender<i32>,
   start_reason: Option<String>,

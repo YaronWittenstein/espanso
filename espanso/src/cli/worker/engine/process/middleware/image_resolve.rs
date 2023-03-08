@@ -17,16 +17,16 @@
  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
 use espanso_engine::process::PathProvider;
 
 pub struct PathProviderAdapter<'a> {
-  paths: &'a Paths,
+  paths: &'a PathsV2,
 }
 
 impl<'a> PathProviderAdapter<'a> {
-  pub fn new(paths: &'a Paths) -> Self {
+  pub fn new(paths: &'a PathsV2) -> Self {
     Self { paths }
   }
 }

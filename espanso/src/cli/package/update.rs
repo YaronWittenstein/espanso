@@ -20,7 +20,7 @@
 use anyhow::{anyhow, Context, Result};
 use clap::ArgMatches;
 use espanso_package::{Archiver, PackageSpecifier, ProviderOptions, SaveOptions, StoredPackage};
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
 use crate::{error_eprintln, info_println, warn_eprintln};
 
@@ -29,7 +29,7 @@ pub enum UpdateResults {
   PartialFailure,
 }
 
-pub fn update_package(paths: &Paths, matches: &ArgMatches) -> Result<UpdateResults> {
+pub fn update_package(paths: &PathsV2, matches: &ArgMatches) -> Result<UpdateResults> {
   let package_name = matches
     .value_of("package_name")
     .ok_or_else(|| anyhow!("missing package name"))?;
@@ -71,7 +71,7 @@ pub fn update_package(paths: &Paths, matches: &ArgMatches) -> Result<UpdateResul
 }
 
 fn perform_package_update(
-  paths: &Paths,
+  paths: &PathsV2,
   archiver: &dyn Archiver,
   package_name: &str,
 ) -> Result<()> {

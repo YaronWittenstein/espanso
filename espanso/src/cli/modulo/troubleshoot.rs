@@ -22,9 +22,9 @@ use std::path::Path;
 use crate::icon::IconPaths;
 use crate::preferences::Preferences;
 use espanso_modulo::troubleshooting::{TroubleshootingHandlers, TroubleshootingOptions};
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
-pub fn troubleshoot_main(paths: &Paths, icon_paths: &IconPaths) -> i32 {
+pub fn troubleshoot_main(paths: &PathsV2, icon_paths: &IconPaths) -> i32 {
   let preferences =
     crate::preferences::get_default(&paths.runtime).expect("unable to initialize preferences");
 

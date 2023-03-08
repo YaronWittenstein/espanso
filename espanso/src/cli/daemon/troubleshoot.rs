@@ -23,7 +23,7 @@ use std::time::Duration;
 use anyhow::{bail, Result};
 use crossbeam::channel::Receiver;
 use crossbeam::select;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 use log::info;
 
 use crate::cli::util::CommandExt;
@@ -74,7 +74,10 @@ pub enum LoadResult {
   Fatal(TroubleshootGuard),
 }
 
-pub fn load_config_or_troubleshoot(paths: &Paths, paths_overrides: &PathsOverrides) -> LoadResult {
+pub fn load_config_or_troubleshoot(
+  paths: &PathsV2,
+  paths_overrides: &PathsOverrides,
+) -> LoadResult {
   match crate::load_config(&paths.config, &paths.packages) {
     Ok(load_result) => {
       if load_result.non_fatal_errors.is_empty() {
@@ -106,7 +109,7 @@ pub fn load_config_or_troubleshoot(paths: &Paths, paths_overrides: &PathsOverrid
 }
 
 pub fn load_config_or_troubleshoot_until_config_is_correct_or_abort(
-  paths: &Paths,
+  paths: &PathsV2,
   paths_overrides: &PathsOverrides,
   watcher_receiver: Receiver<()>,
 ) -> Result<(ConfigLoadResult, Option<TroubleshootGuard>)> {

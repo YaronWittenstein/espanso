@@ -25,7 +25,7 @@ use espanso_config::{config::ConfigStore, matches::store::MatchStore};
 use espanso_detect::SourceCreationOptions;
 use espanso_engine::event::{EventType, ExitMode};
 use espanso_inject::{InjectorCreationOptions, KeyboardStateProvider};
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 use espanso_ui::{event::UIEvent, UIRemote};
 use log::{debug, error, info, warn};
 
@@ -76,7 +76,7 @@ pub mod process;
 
 #[allow(clippy::too_many_arguments)]
 pub fn initialize_and_spawn(
-  paths: Paths,
+  paths: PathsV2,
   config_store: Box<dyn ConfigStore>,
   match_store: Box<dyn MatchStore>,
   ui_remote: Box<dyn UIRemote>,

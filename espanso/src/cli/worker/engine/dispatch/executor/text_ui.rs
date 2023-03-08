@@ -18,17 +18,17 @@
  */
 
 use espanso_engine::dispatch::TextUIHandler;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
 use crate::gui::TextUI;
 
 pub struct TextUIHandlerAdapter<'a> {
   text_ui: &'a dyn TextUI,
-  paths: &'a Paths,
+  paths: &'a PathsV2,
 }
 
 impl<'a> TextUIHandlerAdapter<'a> {
-  pub fn new(text_ui: &'a dyn TextUI, paths: &'a Paths) -> Self {
+  pub fn new(text_ui: &'a dyn TextUI, paths: &'a PathsV2) -> Self {
     Self { text_ui, paths }
   }
 }

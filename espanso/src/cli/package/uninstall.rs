@@ -19,11 +19,11 @@
 
 use anyhow::{anyhow, Context, Result};
 use clap::ArgMatches;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 
 use crate::info_println;
 
-pub fn uninstall_package(paths: &Paths, matches: &ArgMatches) -> Result<()> {
+pub fn uninstall_package(paths: &PathsV2, matches: &ArgMatches) -> Result<()> {
   let package_name = matches
     .value_of("package_name")
     .ok_or_else(|| anyhow!("missing package name"))?;

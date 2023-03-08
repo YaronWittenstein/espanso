@@ -33,7 +33,7 @@ use crate::{
 #[cfg(target_os = "macos")]
 mod macos;
 use clap::ArgMatches;
-use espanso_path::Paths;
+use espanso_path::PathsV2;
 #[cfg(target_os = "macos")]
 use macos::*;
 
@@ -110,7 +110,7 @@ fn service_main(args: CliModuleArgs) -> i32 {
   SERVICE_SUCCESS
 }
 
-fn start_main(paths: &Paths, _paths_overrides: &PathsOverrides, args: &ArgMatches) -> i32 {
+fn start_main(paths: &PathsV2, _paths_overrides: &PathsOverrides, args: &ArgMatches) -> i32 {
   let lock_file = acquire_worker_lock(&paths.runtime);
   if lock_file.is_none() {
     error_eprintln!("espanso is already running!");
@@ -163,7 +163,7 @@ fn start_main(paths: &Paths, _paths_overrides: &PathsOverrides, args: &ArgMatche
   SERVICE_TIMED_OUT
 }
 
-fn stop_main(paths: &Paths) -> i32 {
+fn stop_main(paths: &PathsV2) -> i32 {
   let lock_file = acquire_worker_lock(&paths.runtime);
   if lock_file.is_some() {
     error_eprintln!("espanso is not running!");
@@ -179,7 +179,7 @@ fn stop_main(paths: &Paths) -> i32 {
   SERVICE_SUCCESS
 }
 
-fn status_main(paths: &Paths) -> i32 {
+fn status_main(paths: &PathsV2) -> i32 {
   let lock_file = acquire_worker_lock(&paths.runtime);
   if lock_file.is_some() {
     error_eprintln!("espanso is not running");
