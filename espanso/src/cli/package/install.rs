@@ -83,7 +83,7 @@ pub fn install_package(paths: &PathsV2, matches: &ArgMatches) -> Result<()> {
     bail!("installing from external repository without --external flag");
   }
 
-  let package_provider = espanso_package::get_provider(
+  let package_provider = espanso_package::get_provider_2(
     &package_specifier,
     &paths.runtime,
     &ProviderOptions {

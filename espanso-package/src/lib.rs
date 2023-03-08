@@ -34,7 +34,7 @@ pub use archive::{ArchivedPackage, Archiver, SaveOptions, StoredPackage};
 pub use package::Package;
 pub use provider::{PackageProvider, PackageSpecifier, ProviderOptions};
 
-pub fn get_provider(
+pub fn get_provider_2(
   package: &PackageSpecifier,
   runtime_dir: &Path,
   options: &ProviderOptions,

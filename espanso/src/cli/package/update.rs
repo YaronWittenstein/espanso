@@ -96,7 +96,7 @@ fn perform_package_update(
     StoredPackage::Modern(modern) => ((&modern).into(), Some(modern.manifest.version)),
   };
 
-  let package_provider = espanso_package::get_provider(
+  let package_provider = espanso_package::get_provider_2(
     &package_specifier,
     &paths.runtime,
     &ProviderOptions::default(),
